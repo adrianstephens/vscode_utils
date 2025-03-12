@@ -1,0 +1,24 @@
+.caret {
+	&::before {
+		font-family: 'codicon';
+		content: '\eab6';
+		margin-right: 6px;
+		pointer-events: auto;
+		cursor: pointer;
+	}
+
+	&.caret-down::before {
+		content: '\eab4';
+	}
+
+	&:has(> span:first-child > .codicon) > .children {
+		padding-left: 32px;
+	}
+
+	&:not(.caret-down) div {
+		display: none;
+	}
+	&:not(.caret-down) ul {
+		display: none;
+	}
+}

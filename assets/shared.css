@@ -1,0 +1,204 @@
+@font-face {
+	font-family: "codicon";
+	src: url("./codicon.ttf?9642aa1d48ab4e55aa1bf3f0b8678aa1") format("truetype");
+}
+
+html {
+	scrollbar-width: none;
+	/*user-select: none;*/
+}
+
+body {
+	font-family: var(--vscode-font-family);
+	font-size: var(--vscode-font-size);
+	font-weight: var(--vscode-font-weight);
+	color: var(--vscode-foreground);
+	--icon-color:  var(--vscode-foreground);
+}
+
+.loading-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.spinner {
+	width: 40px;
+	height: 40px;
+	margin-bottom: 16px;
+	border: 4px solid var(--vscode-button-background);
+	border-top: 4px solid transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+.loading-text {
+	font-family: var(--vscode-font-family);
+	font-size: 14px;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+/* For font icons (character in icon attribute)*/
+[icon]::before {
+	content: attr(icon);
+	font: normal normal normal 16px/1 codicon;
+	display: inline-block;
+	color: var(--icon-color);
+	text-decoration: none;
+	text-rendering: auto;
+	text-align: center;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+/* For img icons (img in --icon)*/
+.icon::before {
+    content: '';
+	display: inline-block;
+	text-decoration: none;
+	width: 16px;
+	height: 16px;
+    background-image: var(--icon);
+	margin-right: 5px;
+}
+
+.codicon {
+	font: normal normal normal 16px/1 codicon;
+	display: inline-block;
+	text-decoration: none;
+	text-rendering: auto;
+	text-align: center;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+button[icon] {
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
+	color: var(--vscode-icon-foreground);
+
+	&:hover {
+		background-color: var(--vscode-list-hoverBackground);
+	}
+}
+
+button {
+	color: var(--vscode-button-foreground);
+	background-color: var(--vscode-button-background);
+	border: 1px solid var(--vscode-button-border, transparent);
+	border-radius: 2px;
+	padding: 4px 8px;
+	cursor: pointer;
+	&:hover {
+		background-color: var(--vscode-button-hoverBackground);
+	}
+}
+
+button.codicon {
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
+	color: var(--vscode-icon-foreground);
+	&:hover {
+		opacity: 0.8;
+	}
+}
+
+.select {
+    cursor: pointer;
+    width: fit-content;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.selected {
+    background-color: var(--vscode-editor-selectionBackground);
+}
+
+/* Splitter */
+
+.splitter {
+	position: relative;
+	width: 5px;
+	flex: none;
+	cursor:ew-resize;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 2px;
+		width: 1px;
+		height: 100%;
+		background-color: var(--vscode-editorGroup-border);
+		transition: background-color 0.3s;
+	}
+
+	&:hover::before {
+		left: 0;
+		width: 100%;
+		background-color: var(--vscode-sash-hoverBorder);
+	}
+}
+
+/* Scrollbar */
+
+.vscrollbar, .hscrollbar {
+	position: fixed;
+	z-index: 20;
+	background: var(--vscode-scrollbarSlider-background);
+
+	opacity: 0;
+	transition: opacity .8s linear;
+
+	html:hover &, .resizing & {
+		opacity: 1;
+		transition: opacity .1s linear;
+
+		&:hover {
+			background: var(--vscode-scrollbarSlider-hoverBackground);
+		}
+		&.active {
+			background: var(--vscode-scrollbarSlider-activeBackground)
+		}
+
+		&.invisible {
+			opacity: 0;
+			transition: opacity .8s linear;
+			pointer-events: none;
+		}
+	}
+}
+
+.vscrollbar {
+	right: 0;
+	width: 14px;
+}
+
+.hscrollbar {
+	bottom: 0;
+	height: 14px;
+}
