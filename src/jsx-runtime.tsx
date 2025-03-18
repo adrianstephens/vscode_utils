@@ -44,6 +44,10 @@ function escape(v: string) {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace JSX {
+	export interface Element {
+        type:	string;
+        props:	any;
+    }
 	export interface IntrinsicElements {
 		[elemName: string]: any;
 	}
@@ -601,7 +605,6 @@ type Source = Hash
 	|"'wasm-unsafe-eval'"
 	|"'unsafe-hashes'"
 	|"'inline-speculation-rules'"
-	|"'strict-dynamic'"
 	|"'strict-dynamic'";
 
 export function CSP({csp, ...others}: {csp: string, script?: Source, script_elem?: Source, script_attr?: Source, style?: Source, stype_elem?: Source, style_attr?: Source, font?: Source, img?: Source, media?: Source}) {
