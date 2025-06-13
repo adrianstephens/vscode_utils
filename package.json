@@ -1,12 +1,13 @@
 {
   "name": "@isopodlabs/vscode_utils",
-  "version": "0.1.1",
+  "version": "0.2.3",
   "description": "vscode utilities",
   "exports": {
     "./fs": "./dist/fs.js",
     "./debug": "./dist/debug.js",
     "./icon-theme": "./dist/icon-theme.js",
-    "./jsx-runtime": "./dist/jsx-runtime.js"
+    "./jsx-runtime": "./dist/jsx-runtime.js",
+    "./webview": "./dist/webview/shared.js"
   },
   "files": [
     "dist",
@@ -14,7 +15,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "compile": "tsc -b",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "keywords": [

@@ -202,3 +202,43 @@ button.codicon {
 	bottom: 0;
 	height: 14px;
 }
+/*
+.tooltip {
+	position: absolute;
+    display:    none;
+    padding:    .5em;
+    z-index:    1000;
+	overflow:   hidden;
+	background: var(--vscode-editorHoverWidget-background);
+	color:      var(--vscode-editorHoverWidget-foreground);
+	border:     1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 3px;
+	box-shadow: 0 2px 8px var(--vscode-widget-shadow);
+    white-space: pre-wrap;
+    pointer-events: none;
+}
+	*/
+.tooltip {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    background: var(--vscode-editorHoverWidget-background);
+    color: var(--vscode-editorHoverWidget-foreground);
+    border: 1px solid var(--vscode-editorHoverWidget-border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-family: var(--vscode-font-family, sans-serif);
+    box-shadow: 0 2px 8px var(--vscode-widget-shadow);
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+    white-space: pre;
+    max-width: 320px;
+    word-break: break-word;
+}
+
+.tooltip.visible {
+    opacity: 1;
+    transition: opacity 0.1s;
+}

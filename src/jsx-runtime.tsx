@@ -28,17 +28,16 @@ function renderProps(props: any): string {
         .join('');
 }
 
+const escaped: Record<string, string> = {
+	'\\': '\\\\',
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;',
+	'"': '&quot;',
+};
+
 function escape(v: string) {
-	return v.replace(/[\\&<>"]/g, match => {
-		switch (match) {
-			case '\\':	return '\\\\';
-			case '&':	return '&amp;';
-			case '<':	return '&lt;';
-			case '>':	return '&gt;';
-			case '"':	return '&quot;';
-			default:	return match;
-		}
-	});
+	return v.replace(/[\\&<>"]/g, match => escaped[match]);
 }
 
 
@@ -53,7 +52,7 @@ export namespace JSX {
 	}
 	export function render(element: any): string {
 		if (typeof element === 'string')
-			return escape(element);
+			return element.replace(/[\\&<>]/g, match => escaped[match]);
 	
 		if (typeof element === 'number')
 			return element.toString();
@@ -612,4 +611,8 @@ export function CSP({csp, ...others}: {csp: string, script?: Source, script_elem
 		default-src ${csp};
 		${Object.entries(others).map(([k, v]) => `${k}-src ${v};`)}
 	`}/>;
+}
+
+export function ImportMap(props: {map: Record<string, vscode.Uri>, webview: vscode.Webview}) {
+	return <script type="importmap">{`{ "imports": { ${Object.entries(props.map).map(([k, v]) => `"${k}": "${props.webview.asWebviewUri(v)}"`).join(',')} } }`}</script>;
 }

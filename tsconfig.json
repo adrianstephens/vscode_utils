@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "declaration": true,
     "esModuleInterop": true,
@@ -11,11 +12,6 @@
     "rootDir": "./src",
     "jsx": "react-jsx"
   },
-  "include": [
-    "src/**/*.ts", "src/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/*.ts", "src/*.tsx"],
+	"references": [{ "path": "src/webview" }]
 }

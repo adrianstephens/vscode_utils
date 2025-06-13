@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "build",
+			"script": "compile",
 			"group": "build",
 			"problemMatcher": "$tsc-watch",
-			"label": "npm: build",
+			"label": "compile vscode_utils",
 			"detail": "tsc"
 		},
 		{
@@ -17,7 +17,7 @@
 				"command": "git add . & npm version ${input:version} --force",
 			},
 			"problemMatcher": [],
-			"dependsOn": "npm: build"
+			"dependsOn": "compile vscode_utils"
 		},
 		{
 			"type": "shell",
