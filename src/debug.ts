@@ -208,17 +208,25 @@ export class MemoryFileSystem extends fs.BaseFileSystem {
 		});
 	}
 
-	static parseUri(uri: vscode.Uri) {
+	static getSessionWrapper(uri: vscode.Uri) {
 		const session = Session.get_wrapper(uri.authority);
 		if (!session)
 			throw 'Debug session not found';
+		return session;
+	}
+	static getSession(uri: vscode.Uri) {
+		const session = Session.get_wrapper(uri.authority)?.session ?? vscode.debug.activeDebugSession;
+		if (!session)
+			throw 'Debug session not found';
+		return session;
+	}
 
+	static parseUri(uri: vscode.Uri) {
 		const rangeMatch		= /range=([0-9]+):([0-9]+)/.exec(uri.query);
 		const offset 			= rangeMatch ? { fromOffset: Number(rangeMatch[1]), toOffset: Number(rangeMatch[2]) } : undefined;
 		const memoryReference	= decodeURIComponent(uri.path.split('/')[1]);
 
 		return {
-			session,
 			offset,
 			readOnly: Session.get_caps(uri.authority)?.supportsWriteMemoryRequest,
 			memoryReference,
@@ -230,15 +238,18 @@ export class MemoryFileSystem extends fs.BaseFileSystem {
 	}
 
 	openFile(uri: vscode.Uri): MemoryFile {
-		const { session, memoryReference } = MemoryFileSystem.parseUri(uri);
-		return new MemoryFile(session.session, memoryReference);
+		const session = MemoryFileSystem.getSession(uri);
+		const { memoryReference } = MemoryFileSystem.parseUri(uri);
+		return new MemoryFile(session, memoryReference);
 	}
 	
 	watch(uri: vscode.Uri, options: { readonly recursive: boolean; readonly excludes: readonly string[]; }) {
 		if (options.recursive)
 			return new vscode.Disposable(()=>{});
 
-		const { session, memoryReference, offset } = MemoryFileSystem.parseUri(uri);
+		const session = MemoryFileSystem.getSessionWrapper(uri);
+		const { memoryReference, offset } = MemoryFileSystem.parseUri(uri);
+
 		return vscode.Disposable.from(
 			session.onDidChangeState(state => {
 				if (state === State.Running || state === State.Inactive)
@@ -263,11 +274,12 @@ export class MemoryFileSystem extends fs.BaseFileSystem {
 	}
 
 	async readFile(uri: vscode.Uri) {
-		const { session, memoryReference, offset } = MemoryFileSystem.parseUri(uri);
+		const session = MemoryFileSystem.getSession(uri);
+		const { memoryReference, offset } = MemoryFileSystem.parseUri(uri);
 		if (!offset)
 			throw `Range must be present to read a file`;
 
-		const file = new MemoryFile(session.session, memoryReference);
+		const file = new MemoryFile(session, memoryReference);
 		try {
 			return await file.read(offset.fromOffset, offset.toOffset - offset.fromOffset);
 		} finally {
@@ -276,11 +288,12 @@ export class MemoryFileSystem extends fs.BaseFileSystem {
 	}
 
 	async writeFile(uri: vscode.Uri, content: Uint8Array) {
-		const { session, memoryReference, offset } = MemoryFileSystem.parseUri(uri);
+		const session = MemoryFileSystem.getSession(uri);
+		const { memoryReference, offset } = MemoryFileSystem.parseUri(uri);
 		if (!offset)
 			throw `Range must be present to read a file`;
 
-		const file = new MemoryFile(session.session, memoryReference);
+		const file = new MemoryFile(session, memoryReference);
 		try {
 			await file.write(offset.fromOffset, content);
 		} finally {
