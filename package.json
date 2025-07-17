@@ -1,6 +1,6 @@
 {
   "name": "@isopodlabs/vscode_utils",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "vscode utilities",
   "exports": {
     "./fs": "./dist/fs.js",
