@@ -1,6 +1,6 @@
 {
   "name": "@isopodlabs/vscode_utils",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "vscode utilities",
   "exports": {
     "./fs": "./dist/fs.js",
@@ -12,7 +12,8 @@
   "files": [
     "dist",
     "assets",
-    "README.md"
+    "README.md",
+    "!*.map"
   ],
   "scripts": {
     "compile": "tsc -b",
@@ -26,12 +27,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.13.8",
+    "@types/vscode": "^1.98.0",
     "@vscode/debugprotocol": "^1.68.0",
     "eslint": "^9.21.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.0"
-  },
-  "dependencies": {
-    "@types/vscode": "^1.98.0"
   }
 }
