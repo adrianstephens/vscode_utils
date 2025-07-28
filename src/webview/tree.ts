@@ -1,7 +1,7 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-import { generateSelector } from './shared';
+import { generateSelector } from './shared.js';
 
 export class Tree {
 	constructor(public root: HTMLElement, notify:(caret:Element, down:boolean)=>void) {

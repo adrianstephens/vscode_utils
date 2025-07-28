@@ -1,13 +1,15 @@
 {
   "name": "@isopodlabs/vscode_utils",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "vscode utilities",
   "exports": {
     "./fs": "./dist/fs.js",
     "./debug": "./dist/debug.js",
     "./icon-theme": "./dist/icon-theme.js",
     "./jsx-runtime": "./dist/jsx-runtime.js",
-    "./webview": "./dist/webview/shared.js"
+    "./webview/shared": "./dist/webview/shared.js",
+    "./webview/tree": "./dist/webview/tree.js",
+    "./webview/table": "./dist/webview/table.js"
   },
   "files": [
     "dist",
@@ -16,7 +18,7 @@
     "!*.map"
   ],
   "scripts": {
-    "compile": "tsc -b",
+    "build": "tsc -b",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "keywords": [
