@@ -1,7 +1,7 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-console.log("Hello from shared.ts!");
+//console.log("Hello from shared.ts!");
 
 declare function acquireVsCodeApi(): {
     postMessage: (message: any) => void;
@@ -11,35 +11,39 @@ declare function acquireVsCodeApi(): {
 
 export const vscode		= acquireVsCodeApi();
 
-//fix up icons in attributes
-document.querySelectorAll('[icon]').forEach(element => {
-	const value = element.getAttribute('icon');
-	if (value && value.includes('/')) {
-		element.removeAttribute('icon');
-		element.classList.add('icon');
-		(element as HTMLElement).style.setProperty('--icon', `url(${value})`);
-	}
-	const col = element.getAttribute('color');
-	if (col) {
-		element.removeAttribute('color');
-		(element as HTMLElement).style.setProperty('--icon-color', col);
-	}
-});
-
-
-document.querySelectorAll('.select').forEach(item => {
-	item.addEventListener('click', event => {
-		if (event.target === item) {
-			vscode.postMessage({
-				command: 'select',
-				selector: generateSelector(item),
-				text: item.textContent,
-				...(item as HTMLElement).dataset
-			});
-			event.stopPropagation();
+export function fixupElements(root: ParentNode) {
+	//fix up icons in attributes
+	root.querySelectorAll('[icon]').forEach(element => {
+		const value = element.getAttribute('icon');
+		if (value && value.includes('/')) {
+			element.removeAttribute('icon');
+			element.classList.add('icon');
+			(element as HTMLElement).style.setProperty('--icon', `url(${value})`);
+		}
+		const col = element.getAttribute('color');
+		if (col) {
+			element.removeAttribute('color');
+			(element as HTMLElement).style.setProperty('--icon-color', col);
 		}
 	});
-});
+
+	//class 'select'
+	root.querySelectorAll('.select').forEach(item => {
+		item.addEventListener('click', event => {
+			if (event.target === item) {
+				vscode.postMessage({
+					command: 'select',
+					selector: generateSelector(item),
+					text: item.textContent,
+					...(item as HTMLElement).dataset
+				});
+				event.stopPropagation();
+			}
+		});
+	});
+}
+
+fixupElements(document);
 
 export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, options?: Record<string, unknown>): HTMLElementTagNameMap[K] {
 	const e = document.createElement(tag);
